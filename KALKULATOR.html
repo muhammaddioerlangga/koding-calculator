@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html>
+      <head>
+	  <center>
+     <body bgcolor="purple">
+     <button style="background: linear-gradient( fuchsia,blue,fuchsia)fuchsia;border-color:blue;border-radius:2%;color:blue">
+      <div class="container">
+      <h3>K A L K U L A T O R</h3> 
+        <form name="calculator">
+	   
+	   <!--for stayling-->
+	           <style>
+			       body {
+				   border:1px solid blac;
+				   margin-left:auto;
+				   margin-right:auto;
+				   
+				}
+				
+				   input[type="button"] {
+				   width:100px;
+				   padding:20px 40px;
+				   background-color:navy;
+				   color:blueviolet;
+				   font-size: 21px;
+				   font-weight:bold;
+				   border-radius:25px;
+				   margin-bottom: 10px;
+				   border: solid purple;
+				   
+				  
+				   
+				}  
+				   input[type="text"] {
+				   height:25px;
+				   padding:20px 40px;
+				   font-size: 21px;
+				   font-weight:bold;		   
+				   border-radius:25px;
+				   border: 3px solid blue;
+				   margin-bottom:10px;
+				    
+					
+        </style>
+	</head>
+	 
+	<body>
+    <center>
+            <table id="calcu">
+                <tr>
+                    <td colspan="3">
+                        <input type="text" id="result">
+                    </td>
+                    <td><input type="button" value="<--" onclick="clearResult()"></td>
+                </tr>
+                <tr>
+				    <td><input type="button" value="1" onclick="appendNumber(1)"></td>
+                    <td><input type="button" value="2" onclick="appendNumber(2)"></td>
+                    <td><input type="button" value="3" onclick="appendNumber(3)"></td>
+                    <td><input type="button" value="/" onclick="appendOperator('/')"></td>
+                </tr>
+                <tr>
+				    <td><input type="button" value="4" onclick="appendNumber(4)"></td>
+                    <td><input type="button" value="5" onclick="appendNumber(5)"></td>
+                    <td><input type="button" value="6" onclick="appendNumber(6)"></td>
+                    <td><input type="button" value="*" onclick="appendOperator('*')"></td>
+                </tr>
+                <tr>
+				    <td><input type="button" value="7" onclick="appendNumber(7)"></td>
+                    <td><input type="button" value="8" onclick="appendNumber(8)"></td>
+                    <td><input type="button" value="9" onclick="appendNumber(9)"></td>
+                    <td><input type="button" value="-" onclick="appendOperator('-')"></td>
+                </tr>
+                <tr>
+				    <td><input type="button" value="0" onclick="appendNumber(0)"></td>
+                    <td><input type="button" value="." onclick="appendDecimal()"></td>
+                    <td><input type="button" value="=" onclick="calculte()"></td>
+                    <td><input type="button" value="+" onclick="appendOperator('+')"></td>
+                </td>
+				</tr>
+            </table>
+        </div>
+    </center>
+    <script>
+        let result = "";
+        let isClicked = false; // Variabel untuk melacak klik tombol
+
+        function appendNumber(number) {
+            if (isClicked) return;
+            result += number;
+            updateResult();
+            isClicked = true; // Setelah aksi dilakukan, set isClicked menjadi true
+        }
+
+        function appendOperator(operator) {
+            if (isClicked) return;
+            if (result === "") {
+                return;
+            }
+            result += operator;
+            updateResult();
+            isClicked = true; // Setelah aksi dilakukan, set isClicked menjadi true
+        }
+
+        function calculate() {
+            if (isClicked) return;
+            try {
+                result = eval(result);
+                updateResult();
+            } catch (error) {
+                result = "Error";
+                updateResult();
+            }
+            isClicked = true; // Setelah aksi dilakukan, set isClicked menjadi true
+        }
+
+        function clearResult() {
+            if (isClicked) return;
+            result = "";
+            updateResult();
+            isClicked = true; // Setelah aksi dilakukan, set isClicked menjadi true
+        }
+
+        function updateResult() {
+            document.getElementById("result").value = result;
+        }
+
+        document.querySelectorAll("input[type='button']").forEach((button) => {
+            button.addEventListener("click", (event) => {
+                const value = event.target.value;
+                if (value === "=") {
+                    calculate();
+                } else if (value === "C") {
+                    clearResult();
+                } else if (/[0-9]/.test(value)) {
+                    appendNumber(value);
+                } else {
+                    appendOperator(value);
+                }
+                isClicked = false; // Reset isClicked setelah aksi selesai
+            });
+        });
+
+        // Menghentikan event double click
+        document.querySelectorAll("input[type='button']").forEach((button) => {
+            button.addEventListener("dblclick", (event) => {
+                event.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>
